@@ -1,5 +1,6 @@
 class Api::V1::ItemsController < ApplicationController
-## you can also do it by adding `skip_before_action :verify_authenticity_token` in your api controller
+
+  skip_before_action :verify_authenticity_token
 
   def index
    render json: Item.all
@@ -9,9 +10,24 @@ class Api::V1::ItemsController < ApplicationController
     render json: Item.find(params[:id])
   end
 
-
-  def delete
-
+  def create
+    render json: Item.create(item_params)
   end
+
+
+  def destroy
+    item = Item.find(params[:id])
+    item.destroy
+
+    render json: Item.all
+  end
+
+
+  private
+
+  def item_params
+    params.permit(:name, :description, :image_url)
+  end
+
 
 end

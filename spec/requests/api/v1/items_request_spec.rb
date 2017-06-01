@@ -12,8 +12,7 @@ describe 'Items API' do
       @item2 = Item.create(name: "Another Item",
                         description: "more stuff and things",
                         image_url: "https://anotherfakeimageurl")
-
-  end
+    end
 
     it 'returns all items' do
       get '/api/v1/items.json'
@@ -29,38 +28,39 @@ describe 'Items API' do
     # NEEDS TO REFACTOR -----------NOT the created_at or updated_at
   end
 
-  it 'returns a single item' do
-    get "/api/v1/items/#{@item.id}.json"
-    expect(response).to be_success
+    it 'returns a single item' do
+      get "/api/v1/items/#{@item.id}.json"
+      expect(response).to be_success
 
-    example_item = JSON.parse(response.body)
+      example_item = JSON.parse(response.body)
 
-    expect(example_item['id']).to eq(@item.id)
-    expect(example_item['name']).to eq(@item.name)
-    expect(example_item['description']).to eq(@item.description)
-    expect(example_item['image_url']).to eq(@item.image_url)
+      expect(example_item['id']).to eq(@item.id)
+      expect(example_item['name']).to eq(@item.name)
+      expect(example_item['description']).to eq(@item.description)
+      expect(example_item['image_url']).to eq(@item.image_url)
 
-    expect(response.body).to_not include '@item2.id'
-      # NEEDS TO REFACTOR -----------NOT the created_at or updated_at
-  end
+      expect(response.body).to_not include '@item2.id'
+        # NEEDS TO REFACTOR -----------NOT the created_at or updated_at
+    end
 
-  it 'deletes an item' do
+    it 'deletes an item' do
 
-    expect{ delete "/api/v1/items/#{@item2.id}"}.to change(Item, :count).by(-1)
-    expect(response).to be_success
-    expect{Item.find(@item2.id)}.to raise_error(ActiveRecord::RecordNotFound)
+      expect{ delete "/api/v1/items/#{@item2.id}"}.to change(Item, :count).by(-1)
+      expect(response).to be_success
+      expect{Item.find(@item2.id)}.to raise_error(ActiveRecord::RecordNotFound)
+        # NEEDS TO REFACTOR -----------NOT the created_at or updated_at
+    end
 
-  end
+    it 'creates a new item' do
+      item_params = { name: "Thing", description: "a thing", image_url: "https://someimageurl" }
+      post "/api/v1/items", params: { item: item_params }
+      new_item = Item.last
 
+
+     expect(response).to be_success
+     expect(new_item.name).to eq(item_params[:name])
+     expect(new_item.description).to eq(item_params[:description])
+     expect(new_item.image_url).to eq(item_params[:image_url])
+    end
   end
 end
-
-
-# When I send a DELETE request to `/api/v1/items/1`
-# I receive a 204 JSON response if the record is successfully deleted
-#
-# When I send a POST request to `/api/v1/items` with a name, description, and image_url
-# I receive a 201 JSON  response if the record is successfully created
-# And I receive a JSON response containing the id, name, description, and image_url but not the created_at or updated_at
-#
-# * Verify that your non-GET requests work using Postman or curl. (Hint: `ActionController::API`). Why doesn't the default `ApplicationController` support POST and PUT requests?
