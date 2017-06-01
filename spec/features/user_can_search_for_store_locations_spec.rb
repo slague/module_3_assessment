@@ -11,7 +11,7 @@ feature "User can search for store locations by zipcode" do
       click_on "Search"
 
       expect(current_path).to eq("/search")
-      expect(page).to have_content("16 Total Stores")
+      expect(page).to have_content("Search Results")
       expect(page).to have_selector('.store', count: 10)
 
       within first('.store') do
