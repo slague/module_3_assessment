@@ -40,7 +40,6 @@ describe 'Items API' do
       expect(example_item['image_url']).to eq(@item.image_url)
 
       expect(response.body).to_not include '@item2.id'
-        # NEEDS TO REFACTOR -----------NOT the created_at or updated_at
     end
 
     it 'deletes an item' do
@@ -48,7 +47,6 @@ describe 'Items API' do
       expect{ delete "/api/v1/items/#{@item2.id}"}.to change(Item, :count).by(-1)
       expect(response).to be_success
       expect{Item.find(@item2.id)}.to raise_error(ActiveRecord::RecordNotFound)
-        # NEEDS TO REFACTOR -----------NOT the created_at or updated_at
     end
 
     it 'creates a new item' do
