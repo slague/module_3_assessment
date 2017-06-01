@@ -54,7 +54,7 @@ describe 'Items API' do
     it 'creates a new item' do
       item_params = { name: "Thing", description: "a thing", image_url: "https://someimageurl" }
 
-      post "/api/v1/items", item_params 
+      post "/api/v1/items", item_params
       new_item = Item.last
 
 
