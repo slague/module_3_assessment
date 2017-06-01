@@ -54,12 +54,12 @@ describe 'Items API' do
     it 'creates a new item' do
       item_params = { name: "Thing", description: "a thing", image_url: "https://someimageurl" }
 
-      post "/api/v1/items", params: { item: item_params }
-
+      post "/api/v1/items", item_params 
       new_item = Item.last
 
 
      expect(response).to be_success
+
      expect(new_item.name).to eq(item_params[:name])
      expect(new_item.description).to eq(item_params[:description])
      expect(new_item.image_url).to eq(item_params[:image_url])
