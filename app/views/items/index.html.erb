@@ -1,5 +1,16 @@
 <div class="container">
   <div class="row">
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <%= form_tag'/search', method: :get, class: "form-inline" do %>
+        <div class="form-group search-field">
+          <%= text_field_tag :zip, "Enter a zipcode", class: "form-control" %>
+          <%= submit_tag "Search", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+
+
     <div class="col-sm-12">
       <h1><%= @items.count %> Items</h1>
     </div>
@@ -15,4 +26,3 @@
     </div>
   <% end %>
 </div>
-
